@@ -9,4 +9,5 @@ setup(
     author_email='yuvipanda@gmail.com',
     license='3 Clause BSD',
     packages=['dummyauthenticator'],
+    install_requires=['lti'],
 )

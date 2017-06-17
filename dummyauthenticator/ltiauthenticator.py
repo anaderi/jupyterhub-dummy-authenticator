@@ -8,6 +8,7 @@ from lti import ToolProvider
 from oauthlib.oauth1 import RequestValidator
 from jupyterhub.utils import url_path_join
 import collections
+from urllib.parse import urlparse
 
 logger = logging.getLogger('LTIAuth')
 
@@ -50,8 +51,8 @@ class TornadoToolProvider(ToolProvider):
 
 class LTILoginHandler(BaseHandler):
 
-    def get(self):
-        raise web.HTTPError(401)
+    # def get(self):
+    #     raise web.HTTPError(401)
 
     def post(self):
         secret = self.authenticator.secret or "SECRET"
@@ -59,7 +60,7 @@ class LTILoginHandler(BaseHandler):
 
         # validator = RequestValidator()
         fullname = self.request.arguments['lis_person_name_full']
-        username = 'anaderi' # TODO
+        username = 'student1' # TODO
 
         # ok = tool_provider.is_valid_request(validator)
         ok = True
@@ -70,7 +71,9 @@ class LTILoginHandler(BaseHandler):
         else:
             user = self.user_from_username(username)
             self.set_login_cookie(user)
-            self.redirect(url_path_join(self.hub.server.base_url, 'home'))
+            url_parts = urlparse(self.request.uri)
+            next_url = url_path_join(url_parts.scheme, url_parts.netloc, '/user/%s' % username)
+            self.redirect(next_url)
 
 
 class LTIAuthenticator(Authenticator):
@@ -85,7 +88,7 @@ class LTIAuthenticator(Authenticator):
 
     def get_handlers(self, app):
         return [
-            (r'/login', LTILoginHandler),
+            (r'/launch', LTILoginHandler),
         ]    
 
     @gen.coroutine
