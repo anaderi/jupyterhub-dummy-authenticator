@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='jupyterhub-dummyauthenticator',
-    version='0.3',
+    version='0.4',
     description='Dummy Authenticator for JupyterHub',
     url='https://github.com/yuvipanda/jupyterhub-dummyauthenticator',
     author='Yuvi Panda',

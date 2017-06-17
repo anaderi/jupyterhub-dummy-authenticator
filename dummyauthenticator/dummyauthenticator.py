@@ -1,7 +1,7 @@
 from traitlets import Unicode
 
 from jupyterhub.auth import Authenticator
-
+import logging
 from tornado import gen
 
 
